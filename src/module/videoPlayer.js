@@ -9,12 +9,22 @@ export const videoPlayerInit = () => {
   const videoTimePassed = document.querySelector(".video-time__passed");
   const videotimeTotal = document.querySelector(".video-time__total");
   const videoVolume = document.querySelector(".video-volume")
-  const videoVullscreen = document.querySelector('.video-fullscreen')
+  const videoFullscreen = document.querySelector('.video-fullscreen')
 
   // Открытие видео на полный экран
-  videoVullscreen.addEventListener('click', ()=>{
+  videoFullscreen.addEventListener('click', ()=>{
     videoPlayer.requestFullscreen();
+    videoPlayer.controls = true;
   })
+    // Для firefox
+  videoPlayer.addEventListener('fullscreenchange',()=> {
+    if(document.fulscreen){
+      videoPlayer.controls= true;
+    } else{
+      videoPlayer.controls= false;
+    }
+  })
+
   // Смена иконки паузы и воспроизведения
   const toggleIcon = () => {
     if (videoPlayer.paused) {
@@ -89,5 +99,9 @@ export const videoPlayerInit = () => {
 
     changeValue ();
 
+    videoPlayerInit.stop = ()=>{
+      videoPlayer.pause();
+      toggleIcon();
+    }
   
 };
